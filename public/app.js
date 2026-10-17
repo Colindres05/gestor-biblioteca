@@ -72,15 +72,15 @@ function agregarLibro(evento) {
     return;
   }
 
-  // EJERCICIO INTEGRANTE 2:
-  // Se desactiva intencionalmente la validación de copias.
-  // Esto permite registrar libros con 0 copias.
-  // Cypress deberá detectar la falla.
+  // EJERCICIO INTEGRANTE 3:
+  // Se restaura la validación de copias.
+  // No se permite agregar libros con 0 copias.
+  // Cypress debe aprobar nuevamente las 4 pruebas.
 
-  // if (!Number.isInteger(copias) || copias <= 0) {
-  //   mensaje.textContent = "El número de copias debe ser mayor que 0.";
-  //   return;
-  // }
+  if (!Number.isInteger(copias) || copias <= 0) {
+    mensaje.textContent = "El número de copias debe ser mayor que 0.";
+    return;
+  }
 
   libros.push({
     id: Date.now().toString() + Math.random().toString(36).slice(2),
