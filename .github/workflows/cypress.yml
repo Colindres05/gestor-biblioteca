@@ -1,0 +1,26 @@
+name: Pruebas Cypress
+
+on: [push, pull_request]
+
+jobs:
+  cypress-run:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Descargar el codigo
+        uses: actions/checkout@v4
+
+      - name: Iniciar la web y ejecutar Cypress
+        uses: cypress-io/github-action@v7
+        with:
+          start: npm start
+          wait-on: "http://localhost:3000"
+
+      - name: Guardar evidencia Cypress
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: evidencia-cypress
+          path: |
+            cypress/videos
+            cypress/screenshots
+          if-no-files-found: warn

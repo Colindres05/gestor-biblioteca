@@ -1,0 +1,15 @@
+{
+  "name": "gestor-biblioteca",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Gestor de Biblioteca - Cypress y Pull Requests en equipo (Clase 15)",
+  "scripts": {
+    "start": "http-server public -p 3000",
+    "test:e2e": "cypress run --browser electron",
+    "test:open": "cypress open"
+  },
+  "devDependencies": {
+    "cypress": "13.17.0",
+    "http-server": "14.1.1"
+  }
+}

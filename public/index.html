@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Biblioteca | Gestión de libros</title>
+  <meta name="description" content="Aplicación de demostración de gestión de biblioteca para pruebas automatizadas con Cypress." />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="ambient ambient-left" aria-hidden="true"></div>
+  <div class="ambient ambient-right" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <a class="brand" href="/" aria-label="Inicio de Gestor de Biblioteca">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 5.5c2.7-1.4 5.4-1.4 8 0v14c-2.6-1.4-5.3-1.4-8 0V5.5Z"/>
+          <path d="M20 5.5c-2.7-1.4-5.4-1.4-8 0v14c2.6-1.4 5.3-1.4 8 0V5.5Z"/>
+          <path d="M12 5.5v14"/>
+        </svg>
+      </span>
+      <span class="brand-text"><strong>folio<span class="brand-dot">.</span></strong><small>GESTOR DE BIBLIOTECA</small></span>
+    </a>
+    <div class="header-meta"><span class="status-dot"></span> ENTORNO DE PRUEBAS <span class="meta-line"></span> UMG · CLASE 15</div>
+  </header>
+
+  <main class="page-shell">
+    <section id="login" class="login-layout" aria-labelledby="login-title">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="eyebrow-line"></span> TU ESPACIO PARA LEER Y ORGANIZAR</div>
+        <h1>Las buenas historias <em>merecen</em> un lugar.</h1>
+        <p>Organiza tu colección, controla las copias disponibles y administra los títulos de tu biblioteca desde un solo espacio.</p>
+        <div class="hero-stat"><span class="stat-icon">✦</span><span>Una biblioteca ordenada, <strong>infinitas posibilidades.</strong></span></div>
+      </div>
+      <div class="login-card">
+        <div class="card-kicker">ACCESO ADMINISTRATIVO <span>01 / 02</span></div>
+        <div class="card-icon" aria-hidden="true">↗</div>
+        <h2 id="login-title">Bienvenido<br />de nuevo<span>.</span></h2>
+        <p class="card-description">Ingresa tus credenciales para gestionar el catálogo.</p>
+        <form id="form-login" novalidate>
+          <label for="usuario">Usuario</label>
+          <input id="usuario" name="usuario" type="text" placeholder="Ingresa tu usuario" autocomplete="username" />
+          <label for="clave">Contraseña</label>
+          <input id="clave" name="clave" type="password" placeholder="Ingresa tu contraseña" autocomplete="current-password" />
+          <p id="login-msg" class="form-message" role="alert" aria-live="polite"></p>
+          <button id="btn-login" class="button-primary" type="submit">Entrar a mi biblioteca <span aria-hidden="true">→</span></button>
+        </form>
+        <div class="demo-hint"><span class="hint-icon">i</span> Acceso de demostración: <strong>admin / admin123</strong></div>
+      </div>
+    </section>
+
+    <section id="panel" class="workspace oculto" aria-labelledby="panel-title">
+      <div class="workspace-head">
+        <div>
+          <div class="eyebrow"><span class="eyebrow-line"></span> PANEL DE ADMINISTRACIÓN</div>
+          <h1 id="panel-title">Tu colección<span>.</span></h1>
+          <p>Gestiona los títulos y el inventario de tu biblioteca.</p>
+        </div>
+        <button id="btn-salir" class="button-outline" type="button">Cerrar sesión <span aria-hidden="true">↗</span></button>
+      </div>
+
+      <div class="metrics" aria-label="Resumen de la biblioteca">
+        <div class="metric"><span>LIBROS REGISTRADOS</span><strong id="total-libros">0</strong><small>En el catálogo</small></div>
+        <div class="metric"><span>COPIAS DISPONIBLES</span><strong id="total-copias">0</strong><small>En inventario</small></div>
+        <div class="metric metric-accent"><span>ESTADO DEL SISTEMA</span><strong class="metric-online"><span class="status-dot"></span> Activo</strong><small>Almacenamiento local</small></div>
+      </div>
+
+      <div class="dashboard-grid">
+        <section class="pane add-pane" aria-labelledby="form-title">
+          <div class="pane-number">01 / AGREGAR</div>
+          <h2 id="form-title">Un nuevo libro.</h2>
+          <p class="pane-intro">Completa los datos para añadir un título al catálogo.</p>
+          <form id="form-libro" novalidate>
+            <label for="titulo">Título del libro</label>
+            <input id="titulo" name="titulo" type="text" placeholder="Ej. Cien años de soledad" />
+            <label for="autor">Autor</label>
+            <input id="autor" name="autor" type="text" placeholder="Ej. Gabriel García Márquez" />
+            <label for="copias">Número de copias</label>
+            <input id="copias" name="copias" type="number" min="0" step="1" placeholder="Ej. 3" />
+            <p id="form-msg" class="form-message" role="alert" aria-live="polite"></p>
+            <button id="btn-agregar" class="button-primary" type="submit">Agregar al catálogo <span aria-hidden="true">＋</span></button>
+          </form>
+        </section>
+
+        <section class="pane inventory-pane" aria-labelledby="inventory-title">
+          <div class="pane-top"><div><div class="pane-number">02 / INVENTARIO</div><h2 id="inventory-title">Libros registrados.</h2></div><span class="pill"><span id="pill-libros">0</span> TÍTULOS</span></div>
+          <div class="table-scroll">
+            <table aria-label="Inventario de biblioteca">
+              <thead><tr><th scope="col">TÍTULO</th><th scope="col">AUTOR</th><th scope="col">COPIAS</th><th scope="col" class="action-heading">ACCIÓN</th></tr></thead>
+              <tbody id="tabla-libros"></tbody>
+            </table>
+          </div>
+          <div id="empty-state" class="empty-state">
+            <span class="empty-icon" aria-hidden="true">☷</span>
+            <strong>Tu colección comienza aquí.</strong>
+            <span>Aún no hay libros registrados. Agrega el primero desde el formulario.</span>
+          </div>
+          <div class="table-foot"><span>Los datos se guardan en este navegador.</span><span>localStorage ↗</span></div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer"><span>FOLIO © 2026</span><span>GESTOR DE BIBLIOTECA <span class="footer-sep">/</span> CYPRESS + GITHUB ACTIONS</span></footer>
+</body>
+</html>
