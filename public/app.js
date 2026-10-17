@@ -1,7 +1,8 @@
+
 "use strict";
 
-// Clase 15: aplicación de demostración. La tabla inicia vacía.
-// Los libros se guardan únicamente en el localStorage de este navegador.
+// Clase 15: aplicación de demostración.
+// Los libros se guardan en localStorage.
 const CLAVE_LIBROS = "gestor-biblioteca-libros";
 let libros = [];
 
@@ -19,6 +20,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
 function iniciarSesion(evento) {
   evento.preventDefault();
+
   const usuario = document.getElementById("usuario").value.trim();
   const clave = document.getElementById("clave").value;
   const mensaje = document.getElementById("login-msg");
@@ -59,6 +61,7 @@ function guardarLibros() {
 
 function agregarLibro(evento) {
   evento.preventDefault();
+
   const titulo = document.getElementById("titulo").value.trim();
   const autor = document.getElementById("autor").value.trim();
   const copias = Number(document.getElementById("copias").value);
@@ -69,14 +72,23 @@ function agregarLibro(evento) {
     return;
   }
 
-  // VALIDACIÓN CLAVE: Integrante 2 introduce la falla aquí en su propia rama.
-  // Integrante 3 deberá restaurar esta validación sin modificar las pruebas.
-  if (!Number.isInteger(copias) || copias <= 0) {
-    mensaje.textContent = "El número de copias debe ser mayor que 0.";
-    return;
-  }
+  // EJERCICIO INTEGRANTE 2:
+  // Se desactiva intencionalmente la validación de copias.
+  // Esto permite registrar libros con 0 copias.
+  // Cypress deberá detectar la falla.
 
-  libros.push({ id: Date.now().toString() + Math.random().toString(36).slice(2), titulo, autor, copias });
+  // if (!Number.isInteger(copias) || copias <= 0) {
+  //   mensaje.textContent = "El número de copias debe ser mayor que 0.";
+  //   return;
+  // }
+
+  libros.push({
+    id: Date.now().toString() + Math.random().toString(36).slice(2),
+    titulo,
+    autor,
+    copias
+  });
+
   guardarLibros();
   renderizarLibros();
   mensaje.textContent = "";
@@ -113,20 +125,30 @@ function renderizarLibros() {
 
     const accion = document.createElement("td");
     accion.className = "row-action";
+
     const boton = document.createElement("button");
     boton.type = "button";
     boton.className = "btn-eliminar";
     boton.textContent = "Eliminar";
     boton.setAttribute("aria-label", `Eliminar ${libro.titulo}`);
     boton.addEventListener("click", () => eliminarLibro(libro.id));
-    accion.appendChild(boton);
 
+    accion.appendChild(boton);
     fila.append(titulo, autor, copias, accion);
     tabla.appendChild(fila);
   });
 
-  document.getElementById("total-libros").textContent = String(libros.length);
-  document.getElementById("pill-libros").textContent = String(libros.length);
-  document.getElementById("total-copias").textContent = String(libros.reduce((total, libro) => total + libro.copias, 0));
-  document.getElementById("empty-state").classList.toggle("oculto", libros.length !== 0);
+  document.getElementById("total-libros").textContent =
+    String(libros.length);
+
+  document.getElementById("pill-libros").textContent =
+    String(libros.length);
+
+  document.getElementById("total-copias").textContent =
+    String(libros.reduce((total, libro) => total + libro.copias, 0));
+
+  document.getElementById("empty-state").classList.toggle(
+    "oculto",
+    libros.length !== 0
+  );
 }
